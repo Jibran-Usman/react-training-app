@@ -3,6 +3,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Menu from './components/MenuComponent';
+import Main from './components/MainComponent';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <Menu dishes={this.state.dishes} />
+      <Main />
       );
   }
 }
