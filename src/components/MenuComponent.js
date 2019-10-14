@@ -1,7 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import React, { Component } from 'react';
+import DishDetail from './DishDetailComponent';
 import { Card, CardImg, CardImgOverlay, CardText, CardBody,
     CardTitle } from 'reactstrap';
+
+const DATE_OPTIONS = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
 
 class Menu extends Component {
 
@@ -17,21 +20,34 @@ class Menu extends Component {
     this.setState({ selectedDish: dish});
   }
 
-  renderDish(dish) {
-    if (dish != null)
+  renderComments(dish){
+    if(dish != null){
       return(
-          <Card>
-              <CardImg top src={dish.image} alt={dish.name} />
-              <CardBody>
-                <CardTitle>{dish.name}</CardTitle>
-                <CardText>{dish.description}</CardText>
-              </CardBody>
-          </Card>
+        dish.comments.map(function(comment){
+          return(
+            <div>
+              {comment.comment}
+              <div class='clearfix'></div>
+              <br/>
+              {'-- '}
+              {comment.author}
+              {', '}
+              {(new Date(comment.date)).toLocaleDateString('en-US', DATE_OPTIONS)}
+              <br/>
+              <br/>
+            </div>
+            );
+        })
       );
-    else
+    }
+  }
+
+  renderCommentsHeading(dish){
+    if(dish != null){
       return(
-          <div></div>
+        <h4>Comments</h4>
       );
+    }
   }
 
   render() {
@@ -56,7 +72,11 @@ class Menu extends Component {
           </div>
           <div className="row">
             <div  className="col-12 col-md-5 m-1">
-              {this.renderDish(this.state.selectedDish)}
+              <DishDetail dish={this.state.selectedDish}/>
+            </div>
+            <div  className="col-12 col-md-5 m-1">
+              {this.renderCommentsHeading(this.state.selectedDish)}
+              {this.renderComments(this.state.selectedDish)}
             </div>
           </div>
       </div>
